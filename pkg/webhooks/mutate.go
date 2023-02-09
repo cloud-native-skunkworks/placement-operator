@@ -45,5 +45,7 @@ func (m *PodMutator) Handle(ctx context.Context, req admission.Request) admissio
 		return admission.Errored(http.StatusBadRequest, err)
 	}
 
+	m.Log.Info("Admitted pod", "name", pod.Name, "namespace", pod.Namespace)
+
 	return admission.Allowed("")
 }

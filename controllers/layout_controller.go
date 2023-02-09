@@ -24,7 +24,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/log"
 
-	corev1alpha1 "github.com/cloud-native-skunkworks/placement-operator.git/api/v1alpha1"
+	corev1alpha1 "github.com/cloud-native-skunkworks/placement-operator/api/v1alpha1"
 )
 
 // LayoutReconciler reconciles a Layout object

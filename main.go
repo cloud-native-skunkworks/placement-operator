@@ -24,7 +24,7 @@ import (
 	// to ensure that exec-entrypoint and run can make use of them.
 	_ "k8s.io/client-go/plugin/pkg/client/auth"
 
-	"github.com/cloud-native-skunkworks/placement-operator.git/pkg/webhooks"
+	"github.com/cloud-native-skunkworks/placement-operator/pkg/webhooks"
 
 	"k8s.io/apimachinery/pkg/runtime"
 	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
@@ -34,8 +34,8 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 	"sigs.k8s.io/controller-runtime/pkg/webhook"
 
-	corev1alpha1 "github.com/cloud-native-skunkworks/placement-operator.git/api/v1alpha1"
-	"github.com/cloud-native-skunkworks/placement-operator.git/controllers"
+	corev1alpha1 "github.com/cloud-native-skunkworks/placement-operator/api/v1alpha1"
+	"github.com/cloud-native-skunkworks/placement-operator/controllers"
 	//+kubebuilder:scaffold:imports
 )
 

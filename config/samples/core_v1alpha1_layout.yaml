@@ -10,3 +10,5 @@ metadata:
   name: layout-sample
 spec:
   # TODO(user): Add fields here
+  strategy: balanced
+  admissionOnly: true

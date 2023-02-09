@@ -1,4 +1,4 @@
-module github.com/cloud-native-skunkworks/placement-operator.git
+module github.com/cloud-native-skunkworks/placement-operator
 
 go 1.19
 
