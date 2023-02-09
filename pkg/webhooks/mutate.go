@@ -2,8 +2,6 @@ package webhooks
 
 import (
 	"context"
-	"errors"
-	"fmt"
 	"net/http"
 
 	"github.com/go-logr/logr"
@@ -19,30 +17,21 @@ import (
 
 type PodMutator struct {
 	decoder *admission.Decoder
-	ready   bool
 	Log     logr.Logger
 }
 
-func (m *PodMutator) IsReady(_ *http.Request) error {
-	if m.ready {
-		return nil
-	}
-	return errors.New("pod mutator is not ready")
-}
 func (m *PodMutator) Handle(ctx context.Context, req admission.Request) admission.Response {
-	defer func() {
-		if err := recover(); err != nil {
-			admission.Errored(http.StatusInternalServerError, fmt.Errorf("%v", err))
-		}
-	}()
-	defer func() {
-		m.ready = true
-	}()
-
+	m.Log.Info("Handling pod", "name", req.Name, "namespace", req.Namespace)
 	pod := &corev1.Pod{}
 	err := m.decoder.Decode(req, pod)
 	if err != nil {
+		m.Log.Error(err, "unable to decode pod")
 		return admission.Errored(http.StatusBadRequest, err)
+	}
+	// Check if the pod is an orphan
+	if pod.OwnerReferences == nil {
+		m.Log.Info("Ignoring pod", "name", pod.Name, "namespace", pod.Namespace, "reason", "orphan")
+		return admission.Allowed("")
 	}
 
 	m.Log.Info("Admitted pod", "name", pod.Name, "namespace", pod.Namespace)

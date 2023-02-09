@@ -1,14 +1,50 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: placed-application-demo
+---
 apiVersion: core.cnskunkworks.io/v1alpha1
 kind: Layout
 metadata:
-  labels:
-    app.kubernetes.io/name: layout
-    app.kubernetes.io/instance: layout-sample
-    app.kubernetes.io/part-of: placement-operator
-    app.kubernetes.io/managed-by: kustomize
-    app.kubernetes.io/created-by: placement-operator
   name: layout-sample
 spec:
-  # TODO(user): Add fields here
   strategy: balanced
   admissionOnly: true
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: placed-application-demo
+  namespace: placed-application-demo
+  labels:
+    app: placed-application-demo
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: placed-application-demo
+  template:
+    metadata:
+      labels:
+        app: placed-application-demo
+      # annotations:
+      #   cnskunkworks.io/layout: layout-sample
+    spec:
+      serviceAccountName: placed-application-demo-sa
+      containers:
+        - name: nginx
+          image: nginx
+          resources:
+            limits:
+              cpu: 100m
+              memory: 128Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: placed-application-demo-sa
+  namespace: placed-application-demo
+automountServiceAccountToken: true
