@@ -1,0 +1,27 @@
+# permissions for end users to view layouts.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app.kubernetes.io/name: clusterrole
+    app.kubernetes.io/instance: layout-viewer-role
+    app.kubernetes.io/component: rbac
+    app.kubernetes.io/created-by: placement-operator
+    app.kubernetes.io/part-of: placement-operator
+    app.kubernetes.io/managed-by: kustomize
+  name: layout-viewer-role
+rules:
+- apiGroups:
+  - core.cnskunkworks.io
+  resources:
+  - layouts
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - core.cnskunkworks.io
+  resources:
+  - layouts/status
+  verbs:
+  - get

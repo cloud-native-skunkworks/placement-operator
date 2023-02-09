@@ -1,0 +1,12 @@
+apiVersion: core.cnskunkworks.io/v1alpha1
+kind: Layout
+metadata:
+  labels:
+    app.kubernetes.io/name: layout
+    app.kubernetes.io/instance: layout-sample
+    app.kubernetes.io/part-of: placement-operator
+    app.kubernetes.io/managed-by: kustomize
+    app.kubernetes.io/created-by: placement-operator
+  name: layout-sample
+spec:
+  # TODO(user): Add fields here
