@@ -20,6 +20,11 @@ type PodMutator struct {
 	Log     logr.Logger
 }
 
+func (m *PodMutator) InjectDecoder(d *admission.Decoder) error {
+	m.decoder = d
+	return nil
+}
+
 func (m *PodMutator) Handle(ctx context.Context, req admission.Request) admission.Response {
 	m.Log.Info("Handling pod", "name", req.Name, "namespace", req.Namespace)
 	pod := &corev1.Pod{}
