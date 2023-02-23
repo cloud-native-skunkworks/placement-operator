@@ -1,18 +1,38 @@
 <img src="images/title.png" width="500px;"/>
 
+Dynamically change workload affinity in Kubernetes. Useful for testing, development and reacting to environmental changes.
 
 
-The placement operator allows for the dynamic rebalancing of deployments across a set of nodes. 
-It is designed to be used in conjunction with the placement controller.
+<img src="images/03.png" width="500px;"/>
 
-<img src="images/design.png" width="600px;"/>
+### Custom resource
+
+The custom resource is called **Layout** and is defined as follows:
+```
+apiVersion: core.cnskunkworks.io/v1alpha1
+kind: Layout
+metadata:
+  name: layout-sample
+spec:
+  # balanced | stacked 
+  strategy: stacked
+  admissionOnly: true
+```
+
+  To utilise this resource a workload must use `spec.template.metadata.labels` 
+
+```
+spec:
+  template:
+    metadata:
+      labels:
+        app: placed-application-demo
+        cnskunkworks.io/placement-operator-enabled: "true"
+        cnskunkworks.io/placement-operator-layout: layout-sample
+```
 
 
-This model allows for both admission and reconciliation of deployments. The operator will watch for deployments and pods and will attempt to rebalance them across the nodes. The operator will also watch for nodes and will attempt to rebalance deployments across the nodes.
 
-#### core.cnskunkworks.io/v1alpha1/layout
-<img src="images/02.png" width="250px;" />
-
-Setting a strategy will rebalance, this can be both **balanced** or **stacked**
+Setting a strategy will rebalance, this can be both **balanced** or **stacked** this can be updated dynamically within the layout custom resource and will recreate pods.
 
 <img src="images/01.png" width="550px;" />
