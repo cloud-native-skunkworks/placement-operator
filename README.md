@@ -36,3 +36,10 @@ spec:
 Setting a strategy will rebalance, this can be both **balanced** or **stacked** this can be updated dynamically within the layout custom resource and will recreate pods.
 
 <img src="images/01.png" width="550px;" />
+
+
+### TODO
+
+- [ ] Add custom DSL to create layout conditions
+- [ ] Add additional default layout types
+- [ ] Allow for graceful pod termination and restart conditions
