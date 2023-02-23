@@ -31,6 +31,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
 	corev1alpha1 "github.com/cloud-native-skunkworks/placement-operator/api/v1alpha1"
+	corev1 "k8s.io/api/core/v1"
 	//+kubebuilder:scaffold:imports
 )
 
@@ -63,6 +64,9 @@ var _ = BeforeSuite(func() {
 	Expect(cfg).NotTo(BeNil())
 
 	err = corev1alpha1.AddToScheme(scheme.Scheme)
+	Expect(err).NotTo(HaveOccurred())
+
+	err = corev1.AddToScheme(scheme.Scheme)
 	Expect(err).NotTo(HaveOccurred())
 
 	//+kubebuilder:scaffold:scheme

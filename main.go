@@ -24,8 +24,6 @@ import (
 	// to ensure that exec-entrypoint and run can make use of them.
 	_ "k8s.io/client-go/plugin/pkg/client/auth"
 
-	"github.com/cloud-native-skunkworks/placement-operator/pkg/webhooks"
-
 	"k8s.io/apimachinery/pkg/runtime"
 	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
 	clientgoscheme "k8s.io/client-go/kubernetes/scheme"
@@ -36,6 +34,7 @@ import (
 
 	corev1alpha1 "github.com/cloud-native-skunkworks/placement-operator/api/v1alpha1"
 	"github.com/cloud-native-skunkworks/placement-operator/controllers"
+	"github.com/cloud-native-skunkworks/placement-operator/pkg/webhooks"
 	//+kubebuilder:scaffold:imports
 )
 
@@ -92,17 +91,27 @@ func main() {
 		os.Exit(1)
 	}
 
-	if err = (&controllers.LayoutReconciler{
+	layoutReconciler := &controllers.LayoutReconciler{
+		Client: mgr.GetClient(),
+		Scheme: mgr.GetScheme(),
+	}
+	if err = (layoutReconciler).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "Layout")
+		os.Exit(1)
+	}
+	if err = (&controllers.PodReconciler{
 		Client: mgr.GetClient(),
 		Scheme: mgr.GetScheme(),
 	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "Layout")
+		setupLog.Error(err, "unable to create controller", "controller", "Pod")
 		os.Exit(1)
 	}
 	//+kubebuilder:scaffold:builder
 	hookServer := mgr.GetWebhookServer()
 	podMutator := &webhooks.PodMutator{
-		Log: ctrl.Log.WithName("webhooks").WithName("PodMutator"),
+		LayoutReconcilerRef: layoutReconciler,
+		Client:              mgr.GetClient(),
+		Log:                 ctrl.Log.WithName("webhooks").WithName("PodMutator"),
 	}
 	hookServer.Register("/mutate-v1-pod", &webhook.Admission{Handler: podMutator})
 

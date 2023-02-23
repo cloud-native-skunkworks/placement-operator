@@ -19,57 +19,48 @@ package controllers
 import (
 	"context"
 
+	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/log"
-
-	corev1alpha1 "github.com/cloud-native-skunkworks/placement-operator/api/v1alpha1"
 )
 
-// LayoutReconciler reconciles a Layout object
-type LayoutReconciler struct {
+// PodReconciler reconciles a Pod object
+type PodReconciler struct {
 	client.Client
-	Scheme  *runtime.Scheme
-	Layouts map[string]*corev1alpha1.Layout
+	Scheme *runtime.Scheme
 }
 
-//+kubebuilder:rbac:groups=core.cnskunkworks.io,resources=layouts,verbs=get;list;watch;create;update;patch;delete
-//+kubebuilder:rbac:groups=core.cnskunkworks.io,resources=layouts/status,verbs=get;update;patch
-//+kubebuilder:rbac:groups=core.cnskunkworks.io,resources=layouts/finalizers,verbs=update
+//+kubebuilder:rbac:groups=core,resources=pods,verbs=get;list;watch;create;update;patch;delete
+//+kubebuilder:rbac:groups=core,resources=pods/status,verbs=get;update;patch
+//+kubebuilder:rbac:groups=core,resources=pods/finalizers,verbs=update
 
 // Reconcile is part of the main kubernetes reconciliation loop which aims to
 // move the current state of the cluster closer to the desired state.
 // TODO(user): Modify the Reconcile function to compare the state specified by
-// the Layout object against the actual cluster state, and then
+// the Pod object against the actual cluster state, and then
 // perform operations to make the cluster state reflect the state specified by
 // the user.
 //
 // For more details, check Reconcile and its Result here:
 // - https://pkg.go.dev/sigs.k8s.io/controller-runtime@v0.14.1/pkg/reconcile
-func (r *LayoutReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
-	lg := log.FromContext(ctx)
+func (r *PodReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
+	_ = log.FromContext(ctx)
 
-	// get layout
-	layout := &corev1alpha1.Layout{}
-	if err := r.Get(ctx, req.NamespacedName, layout); err != nil {
+	pod := &corev1.Pod{}
+	if err := r.Get(ctx, req.NamespacedName, pod); err != nil {
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
-	// Check if layout is in map and add if not
-	if _, ok := r.Layouts[layout.Name]; !ok {
-		r.Layouts[layout.Name] = layout
-		lg.Info("Added layout to map", "layout", layout.Name)
-	}
+
+	// TODO(user): your logic here
 
 	return ctrl.Result{}, nil
 }
 
 // SetupWithManager sets up the controller with the Manager.
-func (r *LayoutReconciler) SetupWithManager(mgr ctrl.Manager) error {
-
-	r.Layouts = make(map[string]*corev1alpha1.Layout, 0)
-
+func (r *PodReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&corev1alpha1.Layout{}).
+		For(&corev1.Pod{}).
 		Complete(r)
 }

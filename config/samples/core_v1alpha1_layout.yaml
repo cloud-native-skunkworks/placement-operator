@@ -8,7 +8,8 @@ kind: Layout
 metadata:
   name: layout-sample
 spec:
-  strategy: balanced
+  # balanced | stacked 
+  strategy: stacked
   admissionOnly: true
 ---
 apiVersion: apps/v1
@@ -27,8 +28,9 @@ spec:
     metadata:
       labels:
         app: placed-application-demo
-      # annotations:
-      #   cnskunkworks.io/layout: layout-sample
+      annotations:
+        cnskunkworks.io/placement-operator-enabled: "true"
+        cnskunkworks.io/placement-operator-layout: layout-sample
     spec:
       serviceAccountName: placed-application-demo-sa
       containers:

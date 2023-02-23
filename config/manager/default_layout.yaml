@@ -1,0 +1,9 @@
+apiVersion: core.cnskunkworks.io/v1alpha1
+kind: Layout
+metadata:
+  name: default
+spec:
+  # balanced | stacked 
+  strategy: balanced
+  admissionOnly: true
+---
