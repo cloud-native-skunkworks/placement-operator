@@ -47,12 +47,12 @@ func (m *PodMutator) Handle(ctx context.Context, req admission.Request) admissio
 		return admission.Allowed("")
 	}
 	// Check if the placement-operator is enabled for the workload
-	if pod.Annotations["cnskunkworks.io/placement-operator-enabled"] == "true" {
+	if pod.Labels["cnskunkworks.io/placement-operator-enabled"] == "true" {
 		m.Log.Info("Placement enabled for pod", "name", pod.Name, "namespace", pod.Namespace)
 		// Get the placement strategy and apply to the pod
 		layoutName := "default"
-		if pod.Annotations["cnskunkworks.io/placement-operator-layout"] != "" {
-			layoutName = pod.Annotations["cnskunkworks.io/placement-operator-layout"]
+		if pod.Labels["cnskunkworks.io/placement-operator-layout"] != "" {
+			layoutName = pod.Labels["cnskunkworks.io/placement-operator-layout"]
 		}
 		// Check map is not null
 		if m.LayoutReconcilerRef.Layouts != nil {

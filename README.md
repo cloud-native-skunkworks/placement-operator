@@ -2,7 +2,8 @@
 
 
 
-The placement operator allows for the dynamic rebalancing of deployments across a set of nodes. It is designed to be used in conjunction with the placement controller.
+The placement operator allows for the dynamic rebalancing of deployments across a set of nodes. 
+It is designed to be used in conjunction with the placement controller.
 
 <img src="images/design.png" width="600px;"/>
 

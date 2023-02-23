@@ -11,6 +11,9 @@ func MapLayoutToAffinity(lg logr.Logger,
 	layout *corev1alpha1.Layout, pod *corev1.Pod) *corev1.Affinity {
 	lg.Info("Mapping layout to affinity")
 
+	// Update the layout strategy
+	pod.Labels["cnskunkworks.io/placement-operator-strategy"] = layout.Spec.Strategy
+
 	affinity := &corev1.Affinity{}
 
 	switch layout.Spec.Strategy {

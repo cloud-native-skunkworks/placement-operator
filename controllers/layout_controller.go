@@ -19,12 +19,12 @@ package controllers
 import (
 	"context"
 
+	corev1alpha1 "github.com/cloud-native-skunkworks/placement-operator/api/v1alpha1"
+	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/log"
-
-	corev1alpha1 "github.com/cloud-native-skunkworks/placement-operator/api/v1alpha1"
 )
 
 // LayoutReconciler reconciles a Layout object
@@ -59,6 +59,28 @@ func (r *LayoutReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctr
 	if _, ok := r.Layouts[layout.Name]; !ok {
 		r.Layouts[layout.Name] = layout
 		lg.Info("Added layout to map", "layout", layout.Name)
+	} else {
+		if r.Layouts[layout.Name].Spec.Strategy != layout.Spec.Strategy {
+			r.Layouts[layout.Name].Spec.Strategy = layout.Spec.Strategy
+			lg.Info("Updated layout in map", "layout", layout.Name)
+
+			// List pods that are using annotation cnskunkworks.io/placement-operator-layout
+			pods := &corev1.PodList{}
+			if err := r.List(ctx, pods, client.MatchingLabels{"cnskunkworks.io/placement-operator-layout": layout.Name}); err != nil {
+				lg.Error(err, "Failed to list pods")
+				return ctrl.Result{}, err
+			}
+			lg.Info("Found pods", "pods", pods.Items)
+			// Probably need to find their owners and restart
+			// Iterate through pods and update their node affinity
+			for _, pod := range pods.Items {
+				// Remove the pod
+				if err := r.Delete(ctx, &pod); err != nil {
+					lg.Error(err, "Failed to delete pod", "pod", pod.Name)
+					return ctrl.Result{}, err
+				}
+			}
+		}
 	}
 
 	return ctrl.Result{}, nil

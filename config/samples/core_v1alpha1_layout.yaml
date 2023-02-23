@@ -20,7 +20,7 @@ metadata:
   labels:
     app: placed-application-demo
 spec:
-  replicas: 3
+  replicas: 4
   selector:
     matchLabels:
       app: placed-application-demo
@@ -28,7 +28,6 @@ spec:
     metadata:
       labels:
         app: placed-application-demo
-      annotations:
         cnskunkworks.io/placement-operator-enabled: "true"
         cnskunkworks.io/placement-operator-layout: layout-sample
     spec:
