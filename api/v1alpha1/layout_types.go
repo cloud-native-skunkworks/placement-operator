@@ -29,9 +29,8 @@ type LayoutSpec struct {
 	// Important: Run "make" to regenerate code after modifying this file
 
 	// Foo is an example field of Layout. Edit layout_types.go to remove/update
-	// +kubebuilder:validation:Enum=balanced;stacked;spread
-	Strategy      string `json:"strategy,omitempty"`
-	AdmissionOnly bool   `json:"admissionOnly,omitempty"`
+	// +kubebuilder:validation:Enum=balanced;stacked;
+	Strategy string `json:"strategy,omitempty"`
 }
 
 // LayoutStatus defines the observed state of Layout

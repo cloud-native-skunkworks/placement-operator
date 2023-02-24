@@ -10,7 +10,6 @@ metadata:
 spec:
   # balanced | stacked 
   strategy: stacked
-  admissionOnly: true
 ---
 apiVersion: apps/v1
 kind: Deployment

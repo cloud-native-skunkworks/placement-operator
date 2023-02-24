@@ -36,7 +36,6 @@ metadata:
 spec:
   # balanced | stacked 
   strategy: stacked
-  admissionOnly: true
 ```
 
   To utilise this resource a workload must use `spec.template.metadata.labels` 
