@@ -2,6 +2,13 @@
 
 Dynamically change workload affinity in Kubernetes. Useful for testing, development and reacting to environmental changes.
 
+#### Installation
+
+This will install the operator and custom resources
+
+```
+kubectl apply -f https://github.com/cloud-native-skunkworks/placement-operator/releases/download/latest/release.yaml
+```
 
 <img src="images/03.png" width="500px;"/>
 
@@ -37,13 +44,6 @@ Setting a strategy will rebalance, this can be both **balanced** or **stacked** 
 
 <img src="images/01.png" width="550px;" />
 
-### Installation
-
-This will install the operator and custom resources
-
-```
-kubectl apply -f https://github.com/cloud-native-skunkworks/placement-operator/releases/download/latest/release.yaml
-```
 
 ### TODO
 
