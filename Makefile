@@ -96,6 +96,13 @@ docker-buildx: test ## Build and push docker image for the manager for cross-pla
 	- docker buildx rm project-v3-builder
 	rm Dockerfile.cross
 
+##@ Release
+.PHONY: release-manifests
+release-manifests: manifests kustomize
+	cd config/manager && $(KUSTOMIZE) edit set image controller=${IMG}
+	mkdir -p config/rendered/
+	echo building default overlay;\
+	$(KUSTOMIZE) build config/default > config/rendered/release.yaml;
 ##@ Deployment
 
 ifndef ignore-not-found

@@ -1,3 +1,5 @@
+config/rendered
+.vscode
 .DS_Store
 placement-operator
 # Binaries for programs and plugins
