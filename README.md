@@ -10,9 +10,13 @@ This will install the operator and custom resources
 kubectl apply -f https://github.com/cloud-native-skunkworks/placement-operator/releases/download/latest/release.yaml
 ```
 
+### Design 
+
+There are initial two modes of operation **balanced** and **stacked** within the Layout.
+
 <img src="images/03.png" width="500px;"/>
 
-### Custom resource
+#### Custom resource
 
 The custom resource is called **Layout** and is defined as follows:
 ```
