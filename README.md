@@ -10,6 +10,15 @@ This will install the operator and custom resources
 kubectl apply -f https://github.com/cloud-native-skunkworks/placement-operator/releases/download/latest/release.yaml
 ```
 
+#### Run the demo
+
+This will install `placement-application` with a unique `layout` that you can adjust the strategy of.
+
+```
+kubectl apply -f https://github.com/cloud-native-skunkworks/placement-operator/releases/download/latest/demo.yaml
+```
+
+
 ### Design 
 
 There are initial two modes of operation **balanced** and **stacked** within the Layout.
