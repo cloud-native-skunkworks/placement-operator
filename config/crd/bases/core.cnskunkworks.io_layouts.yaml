@@ -35,15 +35,12 @@ spec:
           spec:
             description: LayoutSpec defines the desired state of Layout
             properties:
-              admissionOnly:
-                type: boolean
               strategy:
                 description: Foo is an example field of Layout. Edit layout_types.go
                   to remove/update
                 enum:
                 - balanced
                 - stacked
-                - spread
                 type: string
             type: object
           status:

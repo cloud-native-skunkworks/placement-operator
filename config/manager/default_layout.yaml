@@ -5,5 +5,4 @@ metadata:
 spec:
   # balanced | stacked 
   strategy: balanced
-  admissionOnly: true
 ---
