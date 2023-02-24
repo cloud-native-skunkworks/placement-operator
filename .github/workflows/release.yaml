@@ -71,7 +71,7 @@ jobs:
           with:
             go-version: ${{ env.DEFAULT_GO_VERSION }}
         - run: |
-            make release-manifests
+            IMG=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest make release-manifests
         - name: Release
           uses: softprops/action-gh-release@v1
           with:
