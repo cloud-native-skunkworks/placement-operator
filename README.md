@@ -6,6 +6,8 @@ Dynamically change workload affinity in Kubernetes. Useful for testing, developm
 
 This will install the operator and custom resources
 
+_Requires cert manager installed_
+
 ```
 kubectl apply -f https://github.com/cloud-native-skunkworks/placement-operator/releases/download/latest/release.yaml
 ```
